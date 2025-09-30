@@ -57,11 +57,7 @@ func main() {
 		if err := c.BindJSON(&newChat); err != nil{
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Request"})
 		}
-		//c.JSON(http.StatusOK, &newChat)
 		databaseChat = append(databaseChat, newChat)
-		for _, item := range databaseChat {
-			c.JSON(http.StatusOK, item)
-		}
 	})
 	router.GET("/get", func(c *gin.Context){
 		c.JSON(http.StatusOK, databaseChat)
