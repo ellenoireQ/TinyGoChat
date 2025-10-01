@@ -66,6 +66,7 @@ func main() {
     }
 	if !found {
 		databaseChat = append(databaseChat, newChat)
+		found = false
 	}
 		
 	})
