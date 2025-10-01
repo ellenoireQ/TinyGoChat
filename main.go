@@ -49,13 +49,25 @@ type ChatDefinition struct {
 func main() {
 	databaseChat := []ChatDefinition{}
 	router := gin.Default()
+
 	router.POST("/sendMess", func(c *gin.Context) {
 		var newChat ChatDefinition
-
+		found := false
 		if err := c.BindJSON(&newChat); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Request"})
 		}
+		for i, item := range databaseChat {
+        if newChat.Body.RoomID == item.Body.RoomID {
+			found = true
+			databaseChat[i].Body.Users = append(databaseChat[i].Body.Users, newChat.Body.Users...)
+			break
+        }
+
+    }
+	if !found {
 		databaseChat = append(databaseChat, newChat)
+	}
+		
 	})
 	router.GET("/get", func(c *gin.Context) {
 		if len(databaseChat) == 0 {
