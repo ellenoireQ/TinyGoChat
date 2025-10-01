@@ -58,7 +58,15 @@ func main() {
 		databaseChat = append(databaseChat, newChat)
 	})
 	router.GET("/get", func(c *gin.Context) {
-		c.JSON(http.StatusOK, databaseChat)
+		if len(databaseChat) == 0 {
+			c.JSON(http.StatusOK, gin.H{
+				"message": "The data is null",
+				"array":   databaseChat,
+				"status":  http.StatusOK,
+			})
+		} else {
+			c.JSON(http.StatusOK, databaseChat)
+		}
 	})
 	router.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "Welcome to the TinyGoChat API v1.0")
