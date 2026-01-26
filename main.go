@@ -15,8 +15,7 @@ type body struct {
 
 // Conversation JSON
 type Conversation struct {
-	RoomID string `json:"room_id"`
-	Users  []body `json:"users"`
+	Users []body `json:"users"`
 }
 
 // Chat definition
@@ -41,8 +40,8 @@ type Conversation struct {
 //	   }
 //	 }
 type ChatDefinition struct {
-	Conversation_id string       `json:"conversation_id"`
-	Body            Conversation `json:"body"`
+	RoomID string       `json:"room_id"`
+	Body   Conversation `json:"body"`
 }
 
 // Main function right here
@@ -57,7 +56,7 @@ func main() {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Request"})
 		}
 		for i, item := range databaseChat {
-			if newChat.Body.RoomID == item.Body.RoomID {
+			if newChat.RoomID == item.RoomID {
 				found = true
 				databaseChat[i].Body.Users = append(databaseChat[i].Body.Users, newChat.Body.Users...)
 				break
