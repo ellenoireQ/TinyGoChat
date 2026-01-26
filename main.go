@@ -8,9 +8,9 @@ import (
 
 // Body of JSON
 type body struct {
-	UID      string `json:"uid"`
-	Messages string `json:"messages"`
-	Lastime  string `json:"lastime"`
+	UID       string `json:"uid"`
+	Messages  string `json:"messages"`
+	Timestamp string `json:"timestamp"`
 }
 
 // Conversation JSON
@@ -57,18 +57,18 @@ func main() {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Request"})
 		}
 		for i, item := range databaseChat {
-        if newChat.Body.RoomID == item.Body.RoomID {
-			found = true
-			databaseChat[i].Body.Users = append(databaseChat[i].Body.Users, newChat.Body.Users...)
-			break
-        }
+			if newChat.Body.RoomID == item.Body.RoomID {
+				found = true
+				databaseChat[i].Body.Users = append(databaseChat[i].Body.Users, newChat.Body.Users...)
+				break
+			}
 
-    }
-	if !found {
-		databaseChat = append(databaseChat, newChat)
-		found = false
-	}
-		
+		}
+		if !found {
+			databaseChat = append(databaseChat, newChat)
+			found = false
+		}
+
 	})
 	router.GET("/get", func(c *gin.Context) {
 		if len(databaseChat) == 0 {
