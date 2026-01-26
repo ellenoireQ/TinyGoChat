@@ -1,4 +1,4 @@
-module tinygochat/main
+module sego/main
 
 go 1.25.1
 
